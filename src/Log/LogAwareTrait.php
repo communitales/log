@@ -12,6 +12,9 @@ namespace Communitales\Component\Log;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Throwable;
+use function array_merge;
+use function function_exists;
 
 /**
  * Class LogAwareTrait
@@ -24,9 +27,9 @@ trait LogAwareTrait
     /**
      * Log errors to the logger.
      *
-     * @param string $message
-     * @param string $level
-     * @param array  $context
+     * @param string               $message
+     * @param string               $level
+     * @param array<string, mixed> $context
      */
     protected function log(string $message, string $level = LogLevel::ERROR, array $context = []): void
     {
@@ -38,15 +41,20 @@ trait LogAwareTrait
     /**
      * Log exception to the logger.
      *
-     * @param \Throwable $exception
-     * @param string     $level
-     * @param array      $context
+     * @param Throwable            $exception
+     * @param string               $level
+     * @param array<string, mixed> $context
      */
-    protected function logException(\Throwable $exception, string $level = LogLevel::ERROR, array $context = []): void
+    protected function logException(Throwable $exception, string $level = LogLevel::ERROR, array $context = []): void
     {
         $context = array_merge($context, ['exception' => $exception, 'trace' => $exception->getTraceAsString()]);
 
         $this->log($exception->getMessage(), $level, $context);
+
+        // Sentry Integration
+        if (function_exists('\Sentry\captureException')) {
+            \Sentry\captureException($exception);
+        }
     }
 
 }

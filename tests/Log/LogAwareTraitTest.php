@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright   Copyright (c) 2019 Communitales GmbH (https://www.communitales.com/)
+ * @copyright   Copyright (c) 2019 - 2020 Communitales GmbH (https://www.communitales.com/)
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -32,7 +32,7 @@ class LogAwareTraitTest extends TestCase
         self::assertEquals(
             [
                 [
-                    'level'   => 'notice',
+                    'level' => 'notice',
                     'message' => 'Test message',
                     'context' => ['param1' => 'useful debug information'],
                 ],
@@ -53,7 +53,7 @@ class LogAwareTraitTest extends TestCase
         self::assertEquals($exception, $logger->records[0]['context']['exception']);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $logger = new TestLogger();
         $this->setLogger($logger);

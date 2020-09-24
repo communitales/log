@@ -9,24 +9,34 @@
     "homepage": "https://www.communitales.com",
     "license": "MIT",
     "require": {
-        "php": "^7.1.3",
+        "php": ">=7.4",
         "psr/log": "^1.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-deprecation-rules": "^0.12",
+        "phpstan/phpstan-phpunit": "^0.12",
+        "phpunit/phpunit": "^9.3",
+        "sllh/composer-versions-check": "^2.0",
+        "vimeo/psalm": "^3.16"
     },
     "autoload": {
         "psr-4": {
             "Communitales\\Component\\Log\\": "src/Log"
         },
         "exclude-from-classmap": [
-            "/Tests/"
+            "/tests/"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Communitales\\Component\\Log\\Test\\": "test/Log"
+            "Communitales\\Component\\Log\\Test\\": "tests/Log"
         }
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.dev.neon > docs/TODO-phpstan.md",
+        "psalm": "vendor/bin/psalm -m > docs/TODO-psalm.md",
+        "test": "vendor/bin/phpunit"
     },
     "extra": {
         "branch-alias": {
