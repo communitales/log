@@ -12,7 +12,6 @@ namespace Communitales\Component\Log\Test;
 use Communitales\Component\Log\LogAwareTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
-use Psr\Log\Test\TestLogger;
 use RuntimeException;
 
 /**
