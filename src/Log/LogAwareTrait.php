@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright   Copyright (c) 2019 - 2023 Communitales GmbH (https://www.communitales.com/)
+ * @copyright   Copyright (c) 2019 - 2024 Communitales GmbH (https://www.communitales.com/)
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -9,19 +9,18 @@
 namespace Communitales\Component\Log;
 
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Throwable;
+
+use function Sentry\captureException;
 use function array_merge;
 use function function_exists;
-use function Sentry\captureException;
 
 /**
  * Class LogAwareTrait
  */
 trait LogAwareTrait
 {
-
     use LoggerAwareTrait;
 
     /**
@@ -31,9 +30,7 @@ trait LogAwareTrait
      */
     protected function log(string $message, string $level = LogLevel::ERROR, array $context = []): void
     {
-        if ($this->logger instanceof LoggerInterface) {
-            $this->logger->log($level, $message, $context);
-        }
+        $this->logger->log($level, $message, $context);
     }
 
     /**
@@ -45,6 +42,7 @@ trait LogAwareTrait
     {
         $context = array_merge($context, ['exception' => $exception, 'trace' => $exception->getTraceAsString()]);
         $this->log($exception->getMessage(), $level, $context);
+
         // Sentry Integration
         if (function_exists('\Sentry\captureException')) {
             captureException($exception);

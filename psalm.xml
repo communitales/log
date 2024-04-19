@@ -1,21 +1,24 @@
 <?xml version="1.0"?>
 <psalm
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        totallyTyped="false"
         errorLevel="1"
         resolveFromConfigFile="true"
+        hideExternalErrors="true"
+        findUnusedBaselineEntry="true"
+        findUnusedCode="false"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
         <directory name="src"/>
-        <ignoreFiles>
-            <directory name="vendor"/>
-        </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
         <PropertyNotSetInConstructor errorLevel="suppress"/>
-        <UndefinedConstant errorLevel="suppress"/>
+        <RedundantPropertyInitializationCheck errorLevel="suppress"/>
     </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
 </psalm>
