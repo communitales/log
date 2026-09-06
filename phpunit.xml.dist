@@ -10,6 +10,7 @@
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
+         cacheDirectory="var/cache/.phpunit.cache"
 >
     <php>
         <ini name="display_errors" value="1"/>

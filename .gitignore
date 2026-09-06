@@ -1,7 +1,5 @@
+var/
 vendor/
 composer.lock
 docs/TODO-phpstan.md
 docs/TODO-psalm.md
-.phpunit.result.cache
-.phpunit.cache
-.php-cs-fixer.cache
