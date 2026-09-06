@@ -1,5 +1,7 @@
 # Communitales Log Component
 
+[![Codequality](https://github.com/communitales/log/actions/workflows/codequality.yml/badge.svg)](https://github.com/communitales/log/actions/workflows/codequality.yml)
+
 A PSR-3 compatible logger decorator with convenient exception logging.
 
 ## Setup

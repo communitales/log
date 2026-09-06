@@ -13,6 +13,7 @@
         "psr/log": "^3.0"
     },
     "require-dev": {
+        "esi/phpunit-coverage-check": "^3.1",
         "friendsofphp/php-cs-fixer": "^v3.95",
         "monolog/monolog": "^3.11",
         "phpstan/phpstan": "^2.2",
@@ -40,8 +41,7 @@
     },
     "scripts": {
         "php-cs-fixer": "vendor/bin/php-cs-fixer fix",
-        "phpstan": "vendor/bin/phpstan analyse -c phpstan.dev.neon > docs/TODO-phpstan.md",
-        "psalm": "vendor/bin/psalm -m > docs/TODO-psalm.md",
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon.dist",
         "rector": "vendor/bin/rector process",
         "test": "vendor/bin/phpunit",
         "codecheck": [
