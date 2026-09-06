@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * @copyright   Copyright (c) 2019 - 2020 Communitales GmbH (https://www.communitales.com/)
+ * @copyright Copyright (c) 2019 - 2026 Communitales GmbH (https://www.communitales.com/)
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,7 +23,7 @@ use RuntimeException;
 /**
  * Class LogAwareTraitTest
  */
-class LogAwareTraitTest extends TestCase
+final class LogAwareTraitTest extends TestCase
 {
     use LogAwareTrait;
 
@@ -48,17 +50,14 @@ class LogAwareTraitTest extends TestCase
         $record = $records[0]->toArray();
         unset($record['datetime']);
 
-        self::assertEquals(
-            [
-                'level' => Level::Notice->value,
-                'message' => 'Test message',
-                'context' => ['param1' => 'useful debug information'],
-                'level_name' => 'NOTICE',
-                'channel' => 'name',
-                'extra' => [],
-            ],
-            $record
-        );
+        $this->assertEquals([
+            'level' => Level::Notice->value,
+            'message' => 'Test message',
+            'context' => ['param1' => 'useful debug information'],
+            'level_name' => 'NOTICE',
+            'channel' => 'name',
+            'extra' => [],
+        ], $record);
     }
 
     public function testLogException(): void
@@ -71,8 +70,8 @@ class LogAwareTraitTest extends TestCase
 
         $record = $records[0]->toArray();
 
-        self::assertEquals(Level::Error->value, $record['level']);
-        self::assertEquals('Something gone wrong', $record['message']);
-        self::assertEquals($exception, $record['context']['exception']);
+        $this->assertEquals(Level::Error->value, $record['level']);
+        $this->assertEquals('Something gone wrong', $record['message']);
+        $this->assertEquals($exception, $record['context']['exception']);
     }
 }

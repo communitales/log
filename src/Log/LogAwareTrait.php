@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @copyright   Copyright (c) 2019 - 2024 Communitales GmbH (https://www.communitales.com/)
+ * @copyright Copyright (c) 2019 - 2026 Communitales GmbH (https://www.communitales.com/)
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,9 +13,9 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
 use Throwable;
 
-use function Sentry\captureException;
 use function array_merge;
 use function function_exists;
+use function Sentry\captureException;
 
 /**
  * Class LogAwareTrait
