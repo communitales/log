@@ -32,6 +32,7 @@ jobs:
                 with:
                     php-version: ${{ matrix.php }}
                     coverage: none
+                    ini-values: display_errors=On, display_startup_errors=On, error_reporting=-1, zend.assertions=1
 
             -   name: Validate Composer configuration
                 run: composer validate --strict
@@ -66,6 +67,7 @@ jobs:
                 with:
                     php-version: '8.5'
                     coverage: xdebug
+                    ini-values: display_errors=On, display_startup_errors=On, error_reporting=-1, zend.assertions=1
 
             -   name: Validate Composer configuration
                 run: composer validate --strict
