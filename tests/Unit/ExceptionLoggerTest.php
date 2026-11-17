@@ -34,6 +34,7 @@ final class ExceptionLoggerTest extends TestCase
         $this->testHandler = new TestHandler();
         $logger = new Logger('name');
         $logger->pushHandler($this->testHandler);
+
         $this->logger = new ExceptionLogger($logger);
     }
 
