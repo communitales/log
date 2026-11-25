@@ -98,24 +98,10 @@ jobs:
             -   name: PHP-CS-Fixer
                 run: vendor/bin/php-cs-fixer fix --dry-run --diff
 
-            -   name: Run tests with coverage
+            -   name: PHPUnit with 100% coverage requirement
                 run: |
-                    set -o pipefail
-                    mkdir -p var
-                    vendor/bin/phpunit --coverage-text | tee var/coverage.txt
-
-            -   name: Require 100% line coverage
-                run: |
-                    awk '
-                        $1 == "Lines:" && $2 ~ /^[0-9]+\.[0-9]+%$/ && $3 ~ /^\([0-9]+\/[0-9]+\)$/ {
-                            split($3, counts, /[()\/]/)
-                            found++
-                            if (counts[2] > 0 && counts[2] == counts[3]) passed = 1
-                        }
-                        END {
-                            if (found != 1 || !passed) {
-                                print "Line coverage is missing or below 100%" > "/dev/stderr"
-                                exit 1
-                            }
-                        }
-                    ' var/coverage.txt
+                    vendor/bin/phpunit --coverage-text=var/coverage.txt --only-summary-for-coverage-text --colors=never
+                    cat var/coverage.txt
+                    grep -Eq '^  Classes:[[:space:]]+100\.00%' var/coverage.txt
+                    grep -Eq '^  Methods:[[:space:]]+100\.00%' var/coverage.txt
+                    grep -Eq '^  Lines:[[:space:]]+100\.00%' var/coverage.txt
