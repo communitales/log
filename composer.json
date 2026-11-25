@@ -20,10 +20,8 @@
         "phpstan/phpstan-phpunit": "^2.1",
         "phpunit/phpunit": "^13.4",
         "rector/rector": "^2.9",
-        "sentry/sentry": "^4.38",
         "symfony/config": "^7.4 || ^8.1 || ^8.2",
         "symfony/dependency-injection": "^7.4 || ^8.1 || ^8.2",
-        "symfony/process": "^7.4 || ^8.1 || ^8.2",
         "symfony/yaml": "^7.4 || ^8.1 || ^8.2"
     },
     "autoload": {

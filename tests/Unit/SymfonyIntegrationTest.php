@@ -14,14 +14,10 @@ namespace Communitales\Test\Unit\Component\Log;
 use Communitales\Component\Log\ExceptionLogger;
 use Communitales\Component\Log\ExceptionLoggerInterface;
 use Monolog\Handler\TestHandler;
-use Monolog\Level;
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Sentry\Monolog\ExceptionToSentryIssueHandler;
-use Sentry\State\HubInterface;
-use Sentry\State\Scope;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -57,21 +53,6 @@ final class SymfonyIntegrationTest extends TestCase
         } finally {
             unlink($file);
         }
-    }
-
-    public function testOfficialSentryHandlerReceivesExceptionFromLogger(): void
-    {
-        $exception = new RuntimeException('Report to Sentry');
-        $hub = $this->createMock(HubInterface::class);
-        $hub->expects($this->once())->method('withScope')->willReturnCallback(
-            static function (callable $callback): void {
-                $callback(new Scope());
-            },
-        );
-        $hub->expects($this->once())->method('captureException')->with($this->identicalTo($exception));
-        $logger = new Logger('test', [new ExceptionToSentryIssueHandler($hub, Level::Error)]);
-
-        new ExceptionLogger($logger)->logException($exception);
     }
 
 }

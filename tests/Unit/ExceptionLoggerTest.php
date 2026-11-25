@@ -20,8 +20,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use RuntimeException;
-use Sentry\SentrySdk;
-use Sentry\State\HubInterface;
 
 #[CoversClass(ExceptionLogger::class)]
 final class ExceptionLoggerTest extends TestCase
@@ -81,21 +79,6 @@ final class ExceptionLoggerTest extends TestCase
         $record = $this->testHandler->getRecords()[0]->toArray();
         $this->assertSame(Level::Warning->value, $record['level']);
         $this->assertSame($exception, $record['context']['exception']);
-    }
-
-    public function testDoesNotReportToSentryByDefault(): void
-    {
-        $previousHub = SentrySdk::getCurrentHub();
-        $hub = $this->createMock(HubInterface::class);
-        $hub->expects($this->never())->method('captureException');
-
-        SentrySdk::setCurrentHub($hub);
-
-        try {
-            $this->logger->logException(new RuntimeException('Not reported'));
-        } finally {
-            SentrySdk::setCurrentHub($previousHub);
-        }
     }
 
     public function testLoggerFailurePropagates(): void

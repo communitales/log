@@ -32,7 +32,7 @@ final class ExceptionLogger extends AbstractLogger implements ExceptionLoggerInt
     }
 
     /**
-     * Ok@param array<string, mixed> $context
+     * @param array<string, mixed> $context
      */
     public function logException(
         Throwable $exception,
