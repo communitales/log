@@ -27,8 +27,9 @@ return new PhpCsFixer\Config()
         'no_useless_else' => true,
         'operator_linebreak' => ['only_booleans' => true],
         'ordered_class_elements' => true,
-        'ordered_imports' => true,
+        'ordered_imports' => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
         'ordered_interfaces' => true,
+        'protected_to_private' => true,
         'phpdoc_order' => ['order' => ['param', 'return', 'throws']],
         'phpdoc_param_order' => true,
         'phpdoc_separation' => true,
@@ -40,7 +41,7 @@ return new PhpCsFixer\Config()
         'header_comment' => [
             'comment_type' => 'PHPDoc',
             'location' => 'after_declare_strict',
-            'header' => "@copyright Copyright (c) 2019 - 2026 Communitales GmbH (https://www.communitales.com/)\n\nFor the full copyright and license information, please view the LICENSE\nfile that was distributed with this source code.",
+            'header' => "SPDX-FileCopyrightText: 2019 Communitales GmbH\nSPDX-License-Identifier: MIT",
         ],
 
     ])
