@@ -20,7 +20,7 @@ interface ExceptionLoggerInterface extends LoggerInterface
     /** @param array<string, mixed> $context */
     public function logException(
         Throwable $exception,
-        string $level = LogLevel::ERROR,
         array $context = [],
+        string $level = LogLevel::ERROR,
     ): void;
 }

@@ -13,18 +13,18 @@
         "psr/log": "^3.0"
     },
     "require-dev": {
-        "esi/phpunit-coverage-check": "^3.1",
         "friendsofphp/php-cs-fixer": "^v3.95",
-        "monolog/monolog": "^3.11",
-        "phpstan/phpstan": "^2.2",
+        "monolog/monolog": "^3.13",
+        "phpstan/phpstan": "^2.3",
         "phpstan/phpstan-deprecation-rules": "^2.0",
-        "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^13.3",
-        "rector/rector": "^2.6",
-        "sentry/sentry": "^4.31"
-    },
-    "suggest": {
-        "sentry/sentry": "Enables automatic exception reporting to Sentry."
+        "phpstan/phpstan-phpunit": "^2.1",
+        "phpunit/phpunit": "^13.4",
+        "rector/rector": "^2.9",
+        "sentry/sentry": "^4.38",
+        "symfony/config": "^7.4 || ^8.1 || ^8.2",
+        "symfony/dependency-injection": "^7.4 || ^8.1 || ^8.2",
+        "symfony/process": "^7.4 || ^8.1 || ^8.2",
+        "symfony/yaml": "^7.4 || ^8.1 || ^8.2"
     },
     "autoload": {
         "psr-4": {
@@ -53,6 +53,7 @@
     },
     "config": {
         "sort-packages": true,
+        "bump-after-update": true,
         "allow-plugins": {
             "php-http/discovery": true
         }

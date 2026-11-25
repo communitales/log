@@ -17,6 +17,7 @@ use Monolog\Level;
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use RuntimeException;
 use Sentry\SentrySdk;
@@ -75,30 +76,35 @@ final class ExceptionLoggerTest extends TestCase
         $exception = new RuntimeException('Expected');
         $otherException = new RuntimeException('Unexpected');
 
-        $this->logger->logException($exception, LogLevel::WARNING, ['exception' => $otherException]);
+        $this->logger->logException($exception, ['exception' => $otherException], LogLevel::WARNING);
 
         $record = $this->testHandler->getRecords()[0]->toArray();
         $this->assertSame(Level::Warning->value, $record['level']);
         $this->assertSame($exception, $record['context']['exception']);
     }
 
-    public function testReportsExceptionToSentry(): void
+    public function testDoesNotReportToSentryByDefault(): void
     {
-        $exception = new RuntimeException('Report to Sentry');
         $previousHub = SentrySdk::getCurrentHub();
         $hub = $this->createMock(HubInterface::class);
-        $hub
-            ->expects($this->once())
-            ->method('captureException')
-            ->with($this->identicalTo($exception), null)
-        ;
+        $hub->expects($this->never())->method('captureException');
 
         SentrySdk::setCurrentHub($hub);
 
         try {
-            $this->logger->logException($exception);
+            $this->logger->logException(new RuntimeException('Not reported'));
         } finally {
             SentrySdk::setCurrentHub($previousHub);
         }
+    }
+
+    public function testLoggerFailurePropagates(): void
+    {
+        $failure = new RuntimeException('Log failed');
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('log')->willThrowException($failure);
+
+        $this->expectExceptionObject($failure);
+        new ExceptionLogger($logger)->logException(new RuntimeException('Original'));
     }
 }
