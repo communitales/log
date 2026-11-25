@@ -20,6 +20,8 @@ jobs:
                     - lowest
                 php:
                     - '8.4'
+                    - '8.5'
+                    - '8.6'
 
         steps:
             -   name: Checkout
@@ -36,6 +38,9 @@ jobs:
 
             -   name: Validate Composer configuration
                 run: composer validate --strict
+
+            -   name: Disable automatic Composer bump in CI
+                run: composer config bump-after-update false
 
             -   name: Install highest dependencies
                 if: matrix.dependencies == 'highest'
@@ -72,6 +77,9 @@ jobs:
             -   name: Validate Composer configuration
                 run: composer validate --strict
 
+            -   name: Disable automatic Composer bump in CI
+                run: composer config bump-after-update false
+
             -   name: Install dependencies
                 run: composer update --no-ansi --no-interaction --no-progress --prefer-dist
 
@@ -90,7 +98,24 @@ jobs:
             -   name: PHP-CS-Fixer
                 run: vendor/bin/php-cs-fixer fix --dry-run --diff
 
-            -   name: PHPUnit with 100% coverage requirement
+            -   name: Run tests with coverage
                 run: |
-                    vendor/bin/phpunit --coverage-clover=var/coverage.xml
-                    vendor/bin/coverage-check var/coverage.xml 100
+                    set -o pipefail
+                    mkdir -p var
+                    vendor/bin/phpunit --coverage-text | tee var/coverage.txt
+
+            -   name: Require 100% line coverage
+                run: |
+                    awk '
+                        $1 == "Lines:" && $2 ~ /^[0-9]+\.[0-9]+%$/ && $3 ~ /^\([0-9]+\/[0-9]+\)$/ {
+                            split($3, counts, /[()\/]/)
+                            found++
+                            if (counts[2] > 0 && counts[2] == counts[3]) passed = 1
+                        }
+                        END {
+                            if (found != 1 || !passed) {
+                                print "Line coverage is missing or below 100%" > "/dev/stderr"
+                                exit 1
+                            }
+                        }
+                    ' var/coverage.txt

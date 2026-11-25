@@ -17,26 +17,27 @@ use Psr\Log\LogLevel;
 use Stringable;
 use Throwable;
 
-use function function_exists;
-use function Sentry\captureException;
-
 final class ExceptionLogger extends AbstractLogger implements ExceptionLoggerInterface
 {
-    public function __construct(private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(
+        private readonly LoggerInterface $logger,
+    ) {}
 
-    /** @param array<string, mixed> $context */
+    /**
+     * @param array<string, mixed> $context
+     */
     public function log(mixed $level, string|Stringable $message, array $context = []): void
     {
         $this->logger->log($level, $message, $context);
     }
 
-    /** @param array<string, mixed> $context */
+    /**
+     * @param array<string, mixed> $context
+     */
     public function logException(
         Throwable $exception,
-        string $level = LogLevel::ERROR,
         array $context = [],
+        string $level = LogLevel::ERROR,
     ): void {
         $this->logger->log(
             $level,
@@ -44,8 +45,5 @@ final class ExceptionLogger extends AbstractLogger implements ExceptionLoggerInt
             ['exception' => $exception] + $context,
         );
 
-        if (function_exists('Sentry\captureException')) {
-            captureException($exception);
-        }
     }
 }
