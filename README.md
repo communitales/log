@@ -62,4 +62,11 @@ The exception is passed to the underlying logger using the standard `exception` 
 
 ## Sentry integration
 
-If the optional `sentry/sentry` package is installed, `ExceptionLogger` also reports exceptions through `Sentry\captureException()`. Configure and initialize the Sentry SDK in the consuming application. No additional integration code is needed in this package.
+If the optional `sentry/sentry` package is installed, `ExceptionLogger` also reports exceptions through
+`Sentry\captureException()`. Configure and initialize the Sentry SDK in the consuming application. No additional
+integration code is needed in this package.
+
+## Contributing and security
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development and contribution guidance, and [SECURITY.md](SECURITY.md) for
+supported versions and private vulnerability reporting.
